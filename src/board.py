@@ -1,8 +1,15 @@
-from solver.utils import EMPTY
+from src.utils import EMPTY
 import numpy as np
 
 
 class Board:
+    """
+        This class is the representation of the puzzle.
+        The class stores the array (board) and the block index
+        which is empty. Hence, the program need not to iterate
+        everytime it need to know where is the empty block.
+    """
+
     def __init__(self, array, empty, cost):
         self.array = array
         self.empty = empty
@@ -13,15 +20,25 @@ class Board:
         self.str = ""
 
     def is_index_valid(self, i, j):
+        """
+            Returns true if index is not out of bound.
+        """
         return (0 <= i < 4) and (0 <= j < 4)
 
     def to_xy(self, i):
+        """
+            Convert array index to matrix index.
+        """
         return (i // 4, i % 4)
 
     def wrong_pos(self, array, i):
         return array[i] != i + 1
 
     def calc_cost(self):
+        """
+            Count the blocks that are not in position.
+        """
+
         if not (self.cost):
             total = 0
             for i in range(len(self.array)):
@@ -33,6 +50,11 @@ class Board:
         return self.cost
 
     def move(self, to):
+        """
+            Generating a child class if the direction is valid.
+            Returns None if direction is not valid.
+        """
+
         i = self.empty
         x, y = self.to_xy(to)
 
@@ -63,6 +85,10 @@ class Board:
         return self.move(self.empty + 4)
 
     def to_string(self):
+        """
+            Converting the array to string (matrix-like shape).
+        """
+
         if self.str == "":
             self.str = "  "
             for i in range(len(self.array)):
